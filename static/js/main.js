@@ -5,23 +5,25 @@ var secretItemTemplate = `
 
 var renderSecretItem = doT.compile(secretItemTemplate);
 
+var slideDuration = 500;
+
 function showForm() {
-    $('#secret-form').fadeIn();
-    $('#fail-submit').fadeOut();
-    $('#success-submit').fadeOut();
+    $('#secret-form').slideDown(slideDuration);
+    $('#fail-submit').slideUp(slideDuration);
+    $('#success-submit').slideUp(slideDuration);
 }
 
 function showSuccess() {
-    $('#secret-form').fadeOut();
-    $('#fail-submit').fadeOut();
-    $('#success-submit').fadeIn();
+    $('#secret-form').slideUp(slideDuration);
+    $('#fail-submit').slideUp(slideDuration);
+    $('#success-submit').slideDown(slideDuration);
 }
 
 function showFail(error) {
-    $('#secret-form').fadeIn();
+    $('#secret-form').slideDown(slideDuration);
     $('#fail-submit span').text(error)
-    $('#fail-submit').fadeIn();
-    $('#success-submit').fadeOut();
+    $('#fail-submit').slideDown(slideDuration);
+    $('#success-submit').slideUp(slideDuration);
 }
 
 function submit() {
@@ -61,7 +63,7 @@ function submit() {
 }
 
 function fetch() {
-    $('#loading-spinner').fadeIn();
+    $('#loading-spinner').show();
     $('#secret-block').empty();
     $.get('/all/?random=' + Math.random()).done(function(data) {
         for (var i = data.secret_items.length - 1; i >= 0; --i) {
@@ -69,9 +71,9 @@ function fetch() {
             var element = renderSecretItem(secretItem);
             $('#secret-block').append($(element));
         }
-        $('#loading-spinner').fadeOut();
+        $('#loading-spinner').hide();
     }).fail(function() {
-        $('#loading-spinner').fadeOut();
+        $('#loading-spinner').hide();
     });
 }
 
