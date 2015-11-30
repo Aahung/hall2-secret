@@ -53,7 +53,6 @@ function submit() {
     }).done(function(data) {
         if (data.success == 1) {
             showSuccess();
-            fetch();
         }
         else
             showFail(data.error);
