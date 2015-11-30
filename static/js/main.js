@@ -30,6 +30,7 @@ function submit() {
     var formData = {
         'name'              : $('input[name=name]').val(),
         'content'           : $('textarea[name=content]').val(),
+        'type'              : $('input[name=type]:checked').val(),
         'show_name'         : $('input[name=show_name]')[0].checked
     };
 
@@ -40,6 +41,11 @@ function submit() {
 
     if (formData.show_name && !formData.name) {
         alert('Leave your name here.');
+        return;
+    }
+
+    if (formData.type == undefined) {
+        alert('Specify the secret type, confession or thanks or..');
         return;
     }
 
