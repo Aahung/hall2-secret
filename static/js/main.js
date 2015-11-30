@@ -1,5 +1,5 @@
 var secretItemTemplate = `
-<pre>{{=it.content}}</pre>
+<div>{{=it.content}}</div>
 <div>{{=it.time}}</div>
 `;
 
@@ -68,6 +68,7 @@ function fetch() {
     $.get('/all/?random=' + Math.random()).done(function(data) {
         for (var i = data.secret_items.length - 1; i >= 0; --i) {
             var secretItem = data.secret_items[i];
+            secretItem.content = secretItem.content.replace(/(?:\r\n|\r|\n)/g, '<br />');
             var element = renderSecretItem(secretItem);
             $('#secret-block').append($(element));
         }
