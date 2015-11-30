@@ -69,6 +69,7 @@ function fetch() {
         for (var i = data.secret_items.length - 1; i >= 0; --i) {
             var secretItem = data.secret_items[i];
             secretItem.content = secretItem.content.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            secretItem.time = timestampToDateString(secretItem.time);
             var element = renderSecretItem(secretItem);
             $('#secret-block').append($(element));
         }
@@ -81,3 +82,25 @@ function fetch() {
 $(function() {
     fetch();
 });
+
+
+
+/*
+    Utilities
+*/
+
+function timestampToDateString(UNIX_timestamp) {
+    // took from http://stackoverflow.com/a/6078873
+    // did some modifications
+
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year + ' ' + a.format('h:i:s');
+    return time;
+}
