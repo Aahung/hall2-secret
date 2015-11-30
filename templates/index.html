@@ -1,0 +1,90 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hall2 Secret</title>
+        <link rel="stylesheet" href="/static/bower_components/foundation/css/foundation.min.css" />
+    </head>
+    <body>
+        <div class="row">
+            <div class="text-center">
+                <img src="/static/images/hall2.png">
+                <h4>Hall2 Secret</h4>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-6 large-offset-3 columns">
+                <p class="lead">
+                    Hey Lovely Residents in Hall2:
+                    <br />
+                </p>
+                <p>
+                    We are going to add a brain new section called "Hall2 Secret" in 2015/2016 hall magazine! So welcome to leave your secrets here!
+                    <br /><small>*Your secrets may not be selected due to space limitation or the content is inappropriate.</small>
+                </p>
+                <div class="label text-center">
+                    OK, here we go.
+                </div>
+                <form id="secret-form" action="post/" method="POST">
+                    <textarea rows="5" name="content" placeholder="What do you want to say?"></textarea>
+                    <fieldset>
+                        <legend>Type</legend>
+                        <input type="radio" name="type" value="profession" required><label>Profession</label>
+                        <input type="radio" name="type" value="thanks"><label>Thanks</label>
+                        <input type="radio" name="type" value="complain"><label>Complain</label>
+                        <input type="radio" name="type" value="others"><label>Other</label>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Name</legend>
+                        <label>show your name: 
+                            <input type="checkbox" name="show_name">
+                        </label>
+                        <label>name: 
+                            <input type="text" name="name">
+                        </label>
+                    </fieldset>
+                    <div class="text-center">
+                        <a href="javascript:submit();" class="button">Submit<a/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script src="/static/bower_components/foundation/js/vendor/jquery.js" type="text/javascript"></script>
+    <script src="/static/bower_components/foundation/js/foundation.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    function submit() {
+        var formData = {
+            'name'              : $('input[name=name]').val(),
+            'content'           : $('textarea[name=content]').val(),
+            'show_name'         : $('input[name=show_name]')[0].checked
+        };
+
+        if (formData['content'].length == 0) {
+            alert('Say something please.');
+            return;
+        }
+
+        if (formData.show_name && !formData.name) {
+            alert('Leave your name here.');
+            return;
+        }
+
+        // process the form
+        $.ajax({
+            type        : 'POST',
+            url         : '/post/',
+            data        : formData,
+            dataType    : 'json',
+            encode      : true
+        }).success(function(e) {
+
+        }).error(function(e) {
+
+        });
+    }
+    </script>
+</html>
