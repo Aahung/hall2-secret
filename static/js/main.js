@@ -1,3 +1,10 @@
+var secretItemTemplate = `
+<pre>{{=it.content}}</pre>
+<div>{{=it.time}}</div>
+`;
+
+var renderSecretItem = doT.compile(secretItemTemplate);
+
 function showForm() {
     $('#secret-form').fadeIn();
     $('#fail-submit').fadeOut();
@@ -42,11 +49,32 @@ function submit() {
         dataType    : 'json',
         encode      : true
     }).done(function(data) {
-        if (data.success == 1)
+        if (data.success == 1) {
             showSuccess();
+            fetch();
+        }
         else
             showFail(data.error);
     }).fail(function(e) {
         showFail("Unknown");
     });
 }
+
+function fetch() {
+    $('#loading-spinner').fadeIn();
+    $('#secret-block').empty();
+    $.get('/all/').done(function(data) {
+        for (var i = data.secret_items.length - 1; i >= 0; --i) {
+            var secretItem = data.secret_items[i];
+            var element = renderSecretItem(secretItem);
+            $('#secret-block').append($(element));
+        }
+        $('#loading-spinner').fadeOut();
+    }).fail(function() {
+        $('#loading-spinner').fadeOut();
+    });
+}
+
+$(function() {
+    fetch();
+});
