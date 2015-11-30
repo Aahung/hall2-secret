@@ -1,6 +1,16 @@
 var secretItemTemplate = `
-<div>{{=it.content}}</div>
-<div>{{=it.time}}</div>
+<div class="callout {{?it.type == 'confession'}}primary{{?? it.type == 'thanks'}}success{{?? it.type == 'complain'}}warning{{??}}secondary{{?}}">
+    <span 
+        class="label {{?it.type == 'confession'}}primary{{?? it.type == 'thanks'}}success{{?? it.type == 'complain'}}warning{{??}}secondary{{?}}"
+        style="position: absolute; top: 0; right: 0"
+        >
+        {{=it.type}}
+    </span>
+    <p>{{=it.content}}</p>
+    <div class="text-right">
+        <small>{{?it.name}}from <i>{{=it.name}}</i> - {{?}}{{=it.time}}</small>
+    </div>
+</div>
 `;
 
 var renderSecretItem = doT.compile(secretItemTemplate);
