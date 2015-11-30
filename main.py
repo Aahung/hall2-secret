@@ -17,13 +17,13 @@ time.tzset()
 
 class SecretItem(db.Model):
     """SecretItem"""
-    content = db.StringProperty(required=True)
+    content = db.StringProperty(required=True, multiline=True)
     time = db.DateTimeProperty(auto_now_add=True)
-    name = db.StringProperty()
+    name = db.StringProperty(multiline=True)
     ip = db.StringProperty()
-    user_agent = db.StringProperty()
+    user_agent = db.StringProperty(multiline=True)
     blocked = db.BooleanProperty()
-    blocked_reason = db.StringProperty()
+    blocked_reason = db.StringProperty(multiline=True)
 
 
 index_html = '''<!DOCTYPE HTML>
