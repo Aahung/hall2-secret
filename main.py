@@ -18,6 +18,7 @@ time.tzset()
 class SecretItem(db.Model):
     """SecretItem"""
     content = db.StringProperty(required=True, multiline=True)
+    type = db.StringProperty(required=True)
     time = db.DateTimeProperty(auto_now_add=True)
     name = db.StringProperty(multiline=True)
     ip = db.StringProperty()
@@ -26,13 +27,6 @@ class SecretItem(db.Model):
     blocked_reason = db.StringProperty(multiline=True)
 
 
-index_html = '''<!DOCTYPE HTML>
-<html>
-<body>
-<h1>Hall2 Secret</h1>
-<p>hall2 magazine team</p>
-</body>
-</html>'''
 app = Flask(__name__)
 
 
@@ -49,6 +43,7 @@ def list_secret_items():
         d = dict()
         d['content'] = secret_item.content
         d['name'] = secret_item.name
+        d['type'] = secret_item.type
         d['time'] = time.mktime(secret_item.time.timetuple())
         secret_items.append(d)
     return jsonify({'secret_items': secret_items})
@@ -57,7 +52,8 @@ def list_secret_items():
 @app.route('/post/', methods=['POST'])
 def add_secret_item():
     try:
-        secret_item = SecretItem(content=request.form['content'])
+        secret_item = SecretItem(content=request.form['content'],
+                                 type=request.form['type'])
         if request.form['show_name'] == 'true':
             secret_item.name = request.form['name']
         secret_item.ip = request.remote_addr
