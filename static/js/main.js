@@ -63,7 +63,7 @@ function submit() {
 function fetch() {
     $('#loading-spinner').fadeIn();
     $('#secret-block').empty();
-    $.get('/all/').done(function(data) {
+    $.get('/all/?random=' + Math.random()).done(function(data) {
         for (var i = data.secret_items.length - 1; i >= 0; --i) {
             var secretItem = data.secret_items[i];
             var element = renderSecretItem(secretItem);
